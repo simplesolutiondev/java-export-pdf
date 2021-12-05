@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        h1 {
+            color: #25a7e7;
+            text-align: center;
+        }
+        .order {
+            width: 100%;
+        }
+        .order, .order th, .order td {
+            border: 1px solid #25a7e7;
+            border-collapse: collapse;
+        }
+        .order th {
+            background-color: #25a7e7;
+            color: white;
+        }
+        .total {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <img width="80" src="https://simplesolution.dev/images/Logo_S_v1.png" />
+        </td>
+        <td>
+            <h1>Supply Order Form</h1>
+        </td>
+    </tr>
+</table>
+<div>
+    <table>
+        <tr>
+            <td th:text="'Date: ' + ${#dates.format(order.date, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr>
+            <td th:text="'Order #: ' + ${order.orderNo}"></td>
+        </tr>
+        <tr>
+            <td th:text="'Request Date: ' + ${#dates.format(order.requestDate, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr>
+            <td th:text="'Order Date: ' + ${#dates.format(order.orderDate, 'dd/MM/yyyy')}"></td>
+        </tr>
+    </table>
+</div>
+<br />
+<table class="order">
+    <tr>
+        <th>Item #</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+    </tr>
+    <tr th:each="item, iterStat: ${orderItems}">
+        <td th:text="${iterStat.index + 1}"></td>
+        <td th:text="${item.description}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.unitPrice}"></td>
+        <td th:text="${item.total}"></td>
+    </tr>
+    <tr>
+        <td class="total" colspan="4"><b>Total</b></td>
+        <td><b th:text="${#aggregates.sum(orderItems.{total})}"></b></td>
+    </tr>
+</table>
+</body>
+</html>
